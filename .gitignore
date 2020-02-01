@@ -1,6 +1,7 @@
 #COMP472 Project files
 env-project/
 .vscode/
+test.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
