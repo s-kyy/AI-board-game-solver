@@ -15,7 +15,7 @@ import numpy as np
 
 class Board:
     
-    """Constructors"""
+    """Constructor"""
     def __init__(self, num, maxD, size, state):
         self.number = num   # index of puzzle
         self.maxD = maxD    # maximum depth (for Depth-First Search)
@@ -28,8 +28,8 @@ class Board:
 
 
     """Methods"""
-    def touch(coord): 
-        pass
+    # def touch(coord): 
+    #     pass
 
     # def visualize():
     #     pass
@@ -42,9 +42,21 @@ class Board:
     # def is_equal(self, Board):
     #     pass
 
-    def convertCoord(coord):
-        # switch = {
-        #     'A': 0
-        #     'B': 
-        # }
-        pass
+    @classmethod
+    def convertCoord(cls, coord):
+        position = []   # array of length 2 containing the row (x-axis) and column (y-axis) of Board 2D array 
+        row = {         # dictionary of letters corresponding to row ints
+            'A': 0,
+            'B': 1,
+            'C': 2,
+            'D': 3,
+            'E': 4,
+            'F': 5,
+            'G': 6,
+            'H': 7,
+            'I': 8,
+            'J': 9
+        }
+        position = [row.get(coord[0],-1),int(coord[1:len(coord)])]
+                        # convert the letter to a row number (e.g A = 1), and the second char as an int of the column 
+        return position
