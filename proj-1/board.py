@@ -1,22 +1,39 @@
+import numpy as np # for 2D array
+import copy # see touch() function
+
 """ 
 Project 1.1: Indonesian Dot Puzzle Board Class
 COMP 472 NN 
 DUE: Feb 9th, 2020
 Samantha Yuen (40033121), Andrew Marcos (40011252), Michael Gagnon (40030481)
 
-Variables include: max_d (depth), max_l (search path length)
-Constructors that takes in input file and creates objects of varying board sizes 3x3, 4x4 and 5x5 grids
-Methods to modify tokens on the board adjacent to input coordinates 
-Method to return if game is finished (all 0s)
-Method to return number of 1s on the board (for heuristic function?)
-Method to return the coordinates of 1s on the board (heursitic function)
+Purpose:
+The Board class holds the object Board representing the Indonesian puzzle's state. 
+
+Object Variables:
+    num (puzzle number)
+    size (dimension of puzzle)
+    state (values in puzzle (by row))
+    maxD (maximum depth)
+
+Object Variables used by:
+    DFS: maxD (maximum depth)
+
+Constructor takes in parameters num, maxD, size and state creates objects of varying board sizes 3x3 to 10x10 grids
+
+Object Methods:
+    touch(self, coord) -- flips values of puzzle given coordinate as input
+    visualState(self) -- prints state as 2D array
+    printState(self) -- prints state as a string
+    compare(self, otherBoard) -- compare self board with other board. If equal return true, otherwise return false
+
+Class Method
+    convertCoord(cls, coord) -- with an input string of length = 2, it is converted to a list containing
+                                the row position index[0] and column position index[1]. It is used in touch() object method.
 """
-import numpy as np # for 2D array
-import copy # see touch() function
 
 class Board:
     
-
     """Constructor"""
     def __init__(self, num, maxD, size, state):
         self.num    = num   # index of puzzle
@@ -26,16 +43,12 @@ class Board:
             state_splitted = [int(state[i]) for i in range(0,len(state), 1)] 
                             # Split the values (int) of the board into an array of 1s and 0s
             self.state = np.array(state_splitted).reshape(size, size)
-                            # Store the board state as a size by size ndarray
+                            # Store the board state (by row) as a size by size ndarray
         else:
             self.state = state # copies state from another board
 
 
     """Object Methods"""
-    # touch(seld, coord) -- flips values of puzzle given coordinate as input
-    # visualState(self) -- prints state as 2D array
-    # printState(self) -- prints state as a string
-    # compare(self, otherBoard) -- compare self board with other board. If equal return true, otherwise return false
 
     def touch(self, coord): 
         index = Board.convertCoord(coord)
