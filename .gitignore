@@ -2,6 +2,7 @@
 env-project/
 .vscode/
 test.py
+test.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
