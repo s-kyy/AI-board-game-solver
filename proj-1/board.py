@@ -36,13 +36,13 @@ class Board:
     
     """Constructor"""
     def __init__(self, num, maxD, size, state):
-        self.num    = num   # index of puzzle
-        self.maxD   = maxD  # maximum depth (for Depth-First Search)
-        self.size   = size  # Size of the puzzle (3-10)
+        self.num    = int(num)   # index of puzzle
+        self.maxD   = int(maxD)  # maximum depth (for Depth-First Search)
+        self.size   = int(size)  # Size of the puzzle (3-10)
         if (isinstance(state, str)):
-            state_splitted = [int(state[i]) for i in range(0,len(state), 1)] 
+            state_splitted = [int(digit) for digit in state] 
                             # Split the values (int) of the board into an array of 1s and 0s
-            self.state = np.array(state_splitted).reshape(size, size)
+            self.state = np.array(state_splitted).reshape(int(size), int(size))
                             # Store the board state (by row) as a size by size ndarray
         else:
             self.state = state # copies state from another board
