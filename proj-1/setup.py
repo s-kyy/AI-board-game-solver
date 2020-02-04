@@ -29,7 +29,7 @@ PUT IN DFS:
 def returnInputs(inputfile): 
   # Pass a string of the input file, returns a list of the file's contents as strings
   with open('test.txt','r') as f:
-
+# get the data from input file and put it into a list
     lst= [] #empty list
     for line in f:
       for word in line.split():
@@ -40,24 +40,28 @@ def returnInputs(inputfile):
 def returnBoards(lst): 
   # Pass a string of the input file, returns a list of Board objects
   # count = 0
-  BoardsList=[]
+  BoardsList=[] 
+  # list of Board objects
   
   with open('test.txt','r') as f:
     counter = 1
     depth = 1
     size = 0
-    state =2
+    state =3
     num = 0
+    #getting the input Data and creating Board Objects
     for i in range (len(lst)):
           if i == 0 :
             BoardsList.append(Board(counter,lst[i+depth],lst[i],lst[i+state]))
           elif i < num:
-            depth+=2
-            size+=2
-            state+=2
+            depth+=3
+            size+=3
+            state+=3
             counter+=1
 
             BoardsList.append(Board(counter,lst[i+depth],lst[i+size],lst[i+state]))
+            
+            
             # BoardsList.append(Board(counter,lst[i+depth],lst[i],lst[i+state]))
   return(BoardsList)
 
