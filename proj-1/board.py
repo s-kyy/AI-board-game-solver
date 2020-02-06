@@ -5,7 +5,7 @@ import copy # see touch() function
 Project 1.1: Indonesian Dot Puzzle Board Class
 COMP 472 NN 
 DUE: Feb 9th, 2020
-Samantha Yuen (40033121), Andrew Marcos (40011252), Michael Gagnon (40030481)
+Samantha Yuen (40033121), Andrew Marcos (40011252), Michael Gagnon (40030481) 
 
 Purpose:
 The Board class holds the object Board representing the Indonesian puzzle's state. 

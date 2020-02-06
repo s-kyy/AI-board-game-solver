@@ -1,7 +1,7 @@
 #COMP472 Project files
 env-project/
 .vscode/
-test.py
+testMe.py
 test.txt
 
 # Byte-compiled / optimized / DLL files
