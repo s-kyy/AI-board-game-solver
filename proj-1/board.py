@@ -77,7 +77,7 @@ class Board:
         # print(newBoard.visualState())
 
         # Flip the top value
-        print(index[0] > 0)
+        # print(index[0] > 0)
         if index[0] > 0: #if we're not at the top row, flip the top value
             if (newBoard.state[index[0]-1, index[1]] == 1):
                 newBoard.state[index[0]-1, index[1]] = 0
@@ -89,7 +89,7 @@ class Board:
 
         # Flip the bottom value
         if index[0] < newBoard.size-1: #if we're not at the bottom row, flip the bottom value
-            print(newBoard.state[index[0]+1, index[1]] == 1)
+            # print(newBoard.state[index[0]+1, index[1]] == 1)
             if (newBoard.state[index[0]+1, index[1]] == 1):
                 newBoard.state[index[0]+1, index[1]] = 0
             else:
@@ -99,7 +99,7 @@ class Board:
         # print(newBoard.visualState())
 
         # Flip the left value
-        print(index[1] > 0)
+        # print(index[1] > 0)
         if index[1] > 0: #if we're not at the left-most column, flip the left value
             if (newBoard.state[index[0], index[1]-1] == 1):
                 newBoard.state[index[0], index[1]-1] = 0
@@ -129,7 +129,7 @@ class Board:
         result = ""                     # Create an empty string
         for row in self.state:
             for val in row:             # Loop through each value in the 2D matrix
-                result = result + val   # Append each value into a result string
+                result = result + str(val)   # Append each value into a result string
         return result
 
     def compare(self, otherBoard):
