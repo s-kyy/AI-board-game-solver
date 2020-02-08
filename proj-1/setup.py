@@ -13,9 +13,6 @@ IO setup file to import the indonesian puzzle input.txt file and create a list o
 Methods:
   returnBoards(input) -- takes a string containing the input file name, returns list of boards
   atGoal(Board) -- takes a Board state as input and outputs a boolean. True if all values are 0, False otherwise
-  
-PUT IN DFS:
-  sortChildren(Boards) -- takes a list of board states and reorders them according to the position of zeroes. 
 """
 
 

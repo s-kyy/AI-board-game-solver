@@ -8,10 +8,20 @@ COMP 472 NN
 DUE: Feb 9th, 2020
 Samantha Yuen (40033121), Andrew Marcos (40011252), Michael Gagnon (40030481)
 
-Open list = stack
+Purpose:
+The DFS class is responsible for running the DFS search on the board object
+
+Open list = stack (list)
+closed list = dictionary
 Tree Data structure -- From the root/parent, we can have nxn different children 
 depth-level should start at 0 or 1
-Must output dfs.solution.txt and dfs.search.txt files 
+
+Object Methods:
+    startSearch(self, tree) -- Starts the DFS search on tree
+    finish(self, node, found) -- Ends the search by finding solution path and write to solution path if found.
+    generateChildren(self, node, sortChilds) -- Generates children of node with the tie-breaker sort.
+    dfsSearch(self, board) -- Initializes the search by create tree and root and starts the dfs search
+    createTouchOptions(self, board) -- Creates all of the possible tile options of the given board
 """
 
 
