@@ -27,7 +27,7 @@ def returnBoards(inputfile):
         for line in f:
             words = line.split()
             boardList.append(
-                Board(counter, words[1], words[0], words[3]))
+                Board(counter, words[1], words[0], words[3], words[2]))
             counter += 1
     return boardList
 
