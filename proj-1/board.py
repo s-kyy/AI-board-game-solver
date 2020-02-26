@@ -1,5 +1,6 @@
-import numpy as np # for 2D array
-import copy # see touch() function
+import numpy as np  # for 2D array
+import copy  # see touch() function
+import random
 
 """ 
 Project 1.1: Indonesian Dot Puzzle Board Class
@@ -25,32 +26,47 @@ Object Methods:
     touch(self, coord) -- flips values of puzzle given coordinate as input
     visualState(self) -- prints state as 2D array
     printState(self) -- prints state as a string
+    printInvertedState(self) --- prints state as a string with bits inverted for sorting purposes
     compare(self, otherBoard) -- compare self board with other board. If equal return true, otherwise return false
 
 Class Method
     convertCoord(cls, coord) -- with an input string of length = 2, it is converted to a list containing
                                 the row position index[0] and column position index[1]. It is used in touch() object method.
+    flip(tile) -- with an input of 1 or 0, return the opposite, 1 or 0.
+
+Free Method
+    heuristicValue(board) -- with an input of a board, return the estimated cost to reach the goal from current state
 """
 
-class Board:
-    
-    """Constructor"""
-    def __init__(self, num, maxD, size, state):
-        self.num    = int(num)   # index of puzzle
-        self.maxD   = int(maxD)  # maximum depth (for Depth-First Search)
-        self.size   = int(size)  # Size of the puzzle (3-10)
-        if (isinstance(state, str)):
-            state_splitted = [int(digit) for digit in state] 
-                            # Split the values (int) of the board into an array of 1s and 0s
-            self.state = np.array(state_splitted).reshape(int(size), int(size))
-                            # Store the board state (by row) as a size by size ndarray
-        else:
-            self.state = state # copies state from another board
 
+""" Free Methods """
+
+
+def heuristicValue(board):
+    # TODO: Replace this random number with the heurstic value determining of the board
+    return random.randint(1, 40)
+
+
+class Board:
+
+    """Constructor"""
+
+    def __init__(self, num, maxD, size, state, maxL):
+        self.num = int(num)   # index of puzzle
+        self.maxD = int(maxD)  # maximum depth (for Depth-First Search)
+        self.maxL = int(maxL)
+        self.size = int(size)  # Size of the puzzle (3-10)
+        if (isinstance(state, str)):
+            state_splitted = [int(digit) for digit in state]
+            # Split the values (int) of the board into an array of 1s and 0s
+            self.state = np.array(state_splitted).reshape(int(size), int(size))
+            # Store the board state (by row) as a size by size ndarray
+        else:
+            self.state = state  # copies state from another board
 
     """Object Methods"""
 
-    def touch(self, coord): 
+    def touch(self, coord):
         index = Board.convertCoord(coord)
         # print(str(coord[0]) + str(coord[1]) + " -> " + str(index[0]) + str(index[1]))
 
@@ -59,10 +75,11 @@ class Board:
 
         # Initiate a new Board object using the old Board (self)
         # uses deepcopy method from copy library
-        newBoard = Board(copy.deepcopy(self.num), 
-                         copy.deepcopy(self.maxD), 
-                         copy.deepcopy(self.size), 
-                         copy.deepcopy(self.state))
+        newBoard = Board(copy.deepcopy(self.num),
+                         copy.deepcopy(self.maxD),
+                         copy.deepcopy(self.size),
+                         copy.deepcopy(self.state),
+                         copy.deepcopy(self.maxL))
 
         # print("Original Board")
         # print(self.visualState())
@@ -78,7 +95,7 @@ class Board:
 
         # Flip the top value
         # print(index[0] > 0)
-        if index[0] > 0: #if we're not at the top row, flip the top value
+        if index[0] > 0:  # if we're not at the top row, flip the top value
             if (newBoard.state[index[0]-1, index[1]] == 1):
                 newBoard.state[index[0]-1, index[1]] = 0
             else:
@@ -88,7 +105,7 @@ class Board:
         # print(newBoard.visualState())
 
         # Flip the bottom value
-        if index[0] < newBoard.size-1: #if we're not at the bottom row, flip the bottom value
+        if index[0] < newBoard.size-1:  # if we're not at the bottom row, flip the bottom value
             # print(newBoard.state[index[0]+1, index[1]] == 1)
             if (newBoard.state[index[0]+1, index[1]] == 1):
                 newBoard.state[index[0]+1, index[1]] = 0
@@ -100,7 +117,7 @@ class Board:
 
         # Flip the left value
         # print(index[1] > 0)
-        if index[1] > 0: #if we're not at the left-most column, flip the left value
+        if index[1] > 0:  # if we're not at the left-most column, flip the left value
             if (newBoard.state[index[0], index[1]-1] == 1):
                 newBoard.state[index[0], index[1]-1] = 0
             else:
@@ -110,7 +127,7 @@ class Board:
         # print(newBoard.visualState())
 
         # Flip the right value
-        if index[1] < newBoard.size-1: #if we're not at the right-most column, flip the right value
+        if index[1] < newBoard.size-1:  # if we're not at the right-most column, flip the right value
             if (newBoard.state[index[0], index[1]+1] == 1):
                 newBoard.state[index[0], index[1]+1] = 0
             else:
@@ -123,29 +140,50 @@ class Board:
     def visualState(self):
         # Return a 2D array of the board state
         return self.state
-        
+
     def printState(self):
         #EX: 101010101
         result = ""                     # Create an empty string
         for row in self.state:
             for val in row:             # Loop through each value in the 2D matrix
-                result = result + str(val)   # Append each value into a result string
+                # Append each value into a result string
+                result = result + str(val)
         return result
+
+    def printInvertedState(self):
+        # The same functioning as before, except the 0s and 1s are inverted (for sorting purposes)
+        result = ""                     # Create an empty string
+        for row in self.state:
+            for val in row:             # Loop through each value in the 2D matrix
+                # Append each value into a result string
+                result = result + str(self.flip(val))
+        return result
+
+    @classmethod
+    def flip(cls, tile):
+        if(tile == 1):
+            return 0
+        else:
+            return 1
 
     def compare(self, otherBoard):
         # return true if the state of both boards are equal, otherwise return false
         if self.size != otherBoard.size:
             return False
         else:
-            for row in range(0, self.size) :
-                for col in range(0, self.size) :
+            for row in range(0, self.size):
+                for col in range(0, self.size):
                     if self.state[row, col] != otherBoard.state[row, col]:
                         return False
         return True
 
+    def heuristicValue(self, board):
+        return random.randint(1, 50)
+
     @classmethod
     def convertCoord(cls, coord):
-        position = []   # array of length 2 containing the row (x-axis) and column (y-axis) of Board 2D array 
+        # array of length 2 containing the row (x-axis) and column (y-axis) of Board 2D array
+        position = []
         row = {         # dictionary of letters corresponding to row ints
             'A': 0,
             'B': 1,
@@ -158,6 +196,6 @@ class Board:
             'I': 8,
             'J': 9
         }
-        position = [row.get(coord[0],-1),int(coord[1:len(coord)])-1]
-                        # convert the letter to a row number (e.g A = 1), and the second char as an int of the column 
+        position = [row.get(coord[0], -1), int(coord[1:len(coord)])-1]
+        # convert the letter to a row number (e.g A = 1), and the second char as an int of the column
         return position

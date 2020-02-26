@@ -14,7 +14,7 @@ The DFS class is responsible for running the DFS search on the board object
 Open list = stack (list)
 closed list = dictionary
 Tree Data structure -- From the root/parent, we can have nxn different children 
-depth-level should start at 0 or 1
+depth-level should start at 1
 
 Object Methods:
     startSearch(self, tree) -- Starts the DFS search on tree
@@ -90,7 +90,7 @@ class DFS:
         if(sortChilds):
             for x in self.touchOptions:
                 newBoard = node.board.touch(x)
-                childNode = Node(node, [], 0, node.depth + 1, newBoard, x)
+                childNode = Node(node, [], 0, node.depth + 1, newBoard, x, 0)
                 childNodes[childNode.board.printState()] = childNode
             '''
             This tie-breaker sort is kind of 'cheating' for DFS. It is providing it
@@ -103,14 +103,14 @@ class DFS:
             this can result in a of search 2^100 = a 302 digit number of states.
             '''
             sorted_childNodes = dict(sorted(childNodes.items()))
-            print('----')
+            # print('----')
             for key, value in sorted_childNodes.items():
-                print(value.board.printState())
+                # print(value.board.printState())
                 listOfChildsNodes.append(value)
         else:
             for x in self.touchOptions:
                 newBoard = node.board.touch(x)
-                childNode = Node(node, [], 0, node.depth + 1, newBoard, x)
+                childNode = Node(node, [], 0, node.depth + 1, newBoard, x, 0)
                 listOfChildsNodes.append(childNode)
 
         return listOfChildsNodes
@@ -119,7 +119,7 @@ class DFS:
         # Node(Parent Node, List of children nodes, heuristic value, depth value, board object)
         # The first Node does not have a parent, no children for now, DFS does not have a heuristic,
         # a depth of 1, the initial state of the board and an empty move.
-        head = Node(None, [], 0, 1, board, "0")
+        head = Node(None, [], 0, 1, board, "0", 0)
         tree = Tree(head)
         self.touchOptions = self.createTouchOptions(board)
         tree.openlist.append(head)
