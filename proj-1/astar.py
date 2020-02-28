@@ -1,7 +1,7 @@
 from Tree import Tree
 from Node import Node
 from setup import atGoal
-from board import heuristicValue
+from board import heuristicValue, heuristicOption
 import os
 """
 Project 1.1: Depth First Search Algorithm
@@ -55,13 +55,7 @@ class AStarSearch:
                         if(child.board.printState() not in tree.closedlist):
                             tree.openlist.append(child)
                 tree.openlist.sort(key=lambda x: (
-                    x.f, x.board.printInvertedState()), reverse=True)
-
-                #input('enter to continue')
-                # print('length of openlist: '+str(len(tree.openlist)))
-                for x in tree.openlist:
-                    print(x.board.printState() + ' ' + str(x.f))
-                input('x')
+                    x.f, x.board.printState()))
 
             self.finish(tree.head, False)
 
@@ -91,7 +85,7 @@ class AStarSearch:
         # touch() on.
         for x in self.touchOptions:
             newBoard = node.board.touch(x)
-            h = heuristicValue(newBoard)
+            h = heuristicValue(newBoard, heuristicOption)
             newDepth = node.depth + 1
             childNode = Node(node, [], h, newDepth,
                              newBoard, x, h + newDepth)
@@ -100,7 +94,7 @@ class AStarSearch:
 
     def aStarSearch(self, board):
         # Node(Parent Node, List of children nodes, heuristic value, depth value, board object, index, totalHeuristic)
-        h = heuristicValue(board)
+        h = heuristicValue(board, heuristicOption)
         head = Node(None, [], h, 1, board, "0", h + 1)
         tree = Tree(head)
         self.touchOptions = self.createTouchOptions(board)

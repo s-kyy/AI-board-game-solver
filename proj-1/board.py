@@ -44,6 +44,7 @@ Free Method
 # def heuristicValue(board):
 #     # TODO: Replace this random number with the heurstic value determining of the board
 #     return random.randint(1, 40)        
+heuristicOption = 3
 
 def heuristicValue(board, type):
     # type 1: simple heuristic similar to DFS bubble sort to prioritize 0s. Goal state = 0; Max value = 45

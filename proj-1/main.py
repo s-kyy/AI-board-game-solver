@@ -2,6 +2,7 @@ from setup import returnBoards
 from dfs import DFS
 from bestfirst import BestFirstSearch
 from astar import AStarSearch
+from board import heuristicOption
 import time
 
 """ 
@@ -27,9 +28,9 @@ for board in listOfBoards:
           (board.num, time.time() - start_time))
     start_time = time.time()
     bfs.bestFirstSearch(board)
-    print("--- Board #%s finished in %s seconds for bfs ---" %
-          (board.num, time.time() - start_time))
+    print("--- Board #%s finished in %s seconds for bfs with heuristic %s ---" %
+          (board.num, time.time() - start_time, heuristicOption))
     start_time = time.time()
     afs.aStarSearch(board)
-    print("--- Board #%s finished in %s seconds for a* ---" %
-          (board.num, time.time() - start_time))
+    print("--- Board #%s finished in %s seconds for a* with heuristic %s ---" %
+          (board.num, time.time() - start_time, heuristicOption))

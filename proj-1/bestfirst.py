@@ -1,7 +1,7 @@
 from Tree import Tree
 from Node import Node
 from setup import atGoal
-from board import heuristicValue
+from board import heuristicValue, heuristicOption
 import os
 """
 Project 1.1: Best First Search Algorithm
@@ -55,7 +55,7 @@ class BestFirstSearch:
                         if(child.board.printState() not in tree.closedlist):
                             tree.openlist.append(child)
                 tree.openlist.sort(key=lambda x: (
-                    x.f, x.board.printInvertedState()), reverse=True)
+                    x.f, x.board.printState()))
 
             self.finish(tree.head, False)
 
@@ -85,14 +85,14 @@ class BestFirstSearch:
         # touch() on.
         for x in self.touchOptions:
             newBoard = node.board.touch(x)
-            h = heuristicValue(newBoard)
+            h = heuristicValue(newBoard, heuristicOption)
             childNode = Node(node, [], h, node.depth + 1, newBoard, x, h)
             listOfChildsNodes.append(childNode)
         return listOfChildsNodes
 
     def bestFirstSearch(self, board):
         # Node(Parent Node, List of children nodes, heuristic value, depth value, board object, index, totalHeuristic)
-        h = heuristicValue(board)
+        h = heuristicValue(board, heuristicOption)
         # Since BFS doesnt care about the position in the search space, total f = h
         head = Node(None, [], h, 1, board, "0", h)
         tree = Tree(head)
