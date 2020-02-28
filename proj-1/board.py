@@ -35,17 +35,87 @@ Class Method
     flip(tile) -- with an input of 1 or 0, return the opposite, 1 or 0.
 
 Free Method
-    heuristicValue(board) -- with an input of a board, return the estimated cost to reach the goal from current state
+    heuristicValue(board) -- with an input of a board and type (of heuristic), return the estimated cost to reach the goal from current state
 """
 
 
 """ Free Methods """
 
+# def heuristicValue(board):
+#     # TODO: Replace this random number with the heurstic value determining of the board
+#     return random.randint(1, 40)        
 
-def heuristicValue(board):
-    # TODO: Replace this random number with the heurstic value determining of the board
-    return random.randint(1, 40)
+def heuristicValue(board, type):
+    # type 1: simple heuristic similar to DFS bubble sort to prioritize 0s. Goal state = 0; Max value = 45
+    # type 2: heuristic that weights each position by if there is a 1. If it is surrounded by 1s, the weight of the position decreases
+    # type 3: heuristic combines type 1 and type 2 where each position has a weight and is informed about the surrounding tiles
+    
+    heuristic = 0
+    if (type == 1):
+        counter = 1 # Goal state h(n) = 0
+        # Iterate through the board state
+        for value in np.nditer(board.state):
+            heuristic += value*counter
+            counter += 1
+        return heuristic
 
+    elif (type == 2):
+        heuristic = 0 # Goal state h(n) = 0
+        # Iterate through each position in the board state
+        for row in range(0,board.size):
+            for col in range(0, board.size):
+                if (board.state[row, col] == 1):
+                    heuristic += 1
+                    # Check the top value, if we're not at the top row
+                    if (row > 0):
+                        if (board.state[row-1, col] == 1):
+                            heuristic +=1
+                    #Check the bottom value, we're not at the bottom row
+                    if (row < board.size-1):
+                        if (board.state[row+1, col] == 1):
+                            heuristic +=1
+                    # Check the left value, we're not at the left-most column
+                    if (col > 0):
+                        if (board.state[row, col-1] == 1):
+                            heuristic +=1
+                    #Check the right value, we're not at the right-most column
+                    if (col < board.size-1):
+                        if (board.state[row, col+1] == 1):
+                            heuristic +=1
+        return heuristic
+
+    elif (type == 3):
+        heuristic = 0 # Goal state h(n) = 0
+        counter = 0
+        # Iterate through each position in the board state
+        for row in range(0,board.size):
+            for col in range(0, board.size):
+                counter += 1 # ranges from 1 to size*size
+                if (board.state[row, col] == 1):
+                    heuristic += counter #include the weight of the position
+                     # Check the top value, if we're not at the top row
+                    if (row > 0):
+                        if (board.state[row-1, col] == 1):
+                            heuristic +=1
+                    #Check the bottom value, we're not at the bottom row
+                    if (row < board.size-1):
+                        if (board.state[row+1, col] == 1):
+                            heuristic +=1
+                    # Check the left value, we're not at the left-most column
+                    if (col > 0):
+                        if (board.state[row, col-1] == 1):
+                            heuristic +=1
+                    #Check the right value, we're not at the right-most column
+                    if (col < board.size-1):
+                        if (board.state[row, col+1] == 1):
+                            heuristic +=1
+        return heuristic
+
+    else:
+        return ("Invalid parameters entered, please choose heuristic type 1, 2, or 3")
+
+
+""" Board Class """
 
 class Board:
 
@@ -67,8 +137,7 @@ class Board:
     """Object Methods"""
 
     def touch(self, coord):
-        index = Board.convertCoord(coord)
-        # print(str(coord[0]) + str(coord[1]) + " -> " + str(index[0]) + str(index[1]))
+        index = Board.convertCoord(coord)   # Convert the string coord of length 2 to a list of length 2 holding the row and column as ints
 
         if (index[0] >= self.size or index[1] >= self.size):
             return print("Coordinates out of Bounds")
@@ -81,50 +150,32 @@ class Board:
                          copy.deepcopy(self.state),
                          copy.deepcopy(self.maxL))
 
-        # print("Original Board")
-        # print(self.visualState())
-
         # Flip the index value
         if (newBoard.state[index[0], index[1]] == 1):
             newBoard.state[index[0], index[1]] = 0
         else:
             newBoard.state[index[0], index[1]] = 1
 
-        # print("Flip index value")
-        # print(newBoard.visualState())
-
         # Flip the top value
-        # print(index[0] > 0)
         if index[0] > 0:  # if we're not at the top row, flip the top value
             if (newBoard.state[index[0]-1, index[1]] == 1):
                 newBoard.state[index[0]-1, index[1]] = 0
             else:
                 newBoard.state[index[0]-1, index[1]] = 1
 
-        # print("Flip top value")
-        # print(newBoard.visualState())
-
         # Flip the bottom value
         if index[0] < newBoard.size-1:  # if we're not at the bottom row, flip the bottom value
-            # print(newBoard.state[index[0]+1, index[1]] == 1)
             if (newBoard.state[index[0]+1, index[1]] == 1):
                 newBoard.state[index[0]+1, index[1]] = 0
             else:
                 newBoard.state[index[0]+1, index[1]] = 1
 
-        # print("Flip bottom value")
-        # print(newBoard.visualState())
-
         # Flip the left value
-        # print(index[1] > 0)
         if index[1] > 0:  # if we're not at the left-most column, flip the left value
             if (newBoard.state[index[0], index[1]-1] == 1):
                 newBoard.state[index[0], index[1]-1] = 0
             else:
                 newBoard.state[index[0], index[1]-1] = 1
-
-        # print("Flip left value")
-        # print(newBoard.visualState())
 
         # Flip the right value
         if index[1] < newBoard.size-1:  # if we're not at the right-most column, flip the right value
@@ -133,8 +184,6 @@ class Board:
             else:
                 newBoard.state[index[0], index[1]+1] = 1
 
-        # print("New Board")
-        # print(newBoard.visualState())
         return newBoard
 
     def visualState(self):
@@ -158,9 +207,10 @@ class Board:
                 # Append each value into a result string
                 result = result + str(self.flip(val))
         return result
-
+    
     @classmethod
     def flip(cls, tile):
+        # Returned value is passed in getInverseValue for sorting 
         if(tile == 1):
             return 0
         else:
@@ -177,12 +227,10 @@ class Board:
                         return False
         return True
 
-    def heuristicValue(self, board):
-        return random.randint(1, 50)
-
     @classmethod
     def convertCoord(cls, coord):
-        # array of length 2 containing the row (x-axis) and column (y-axis) of Board 2D array
+        # coord parameter is a string of length two indicating the row (A-J) and column (1-10)
+        # Outputs an array of length 2 containing the row (x-axis) as a letter and column (y-axis) as an integer
         position = []
         row = {         # dictionary of letters corresponding to row ints
             'A': 0,
@@ -197,5 +245,5 @@ class Board:
             'J': 9
         }
         position = [row.get(coord[0], -1), int(coord[1:len(coord)])-1]
-        # convert the letter to a row number (e.g A = 1), and the second char as an int of the column
+        # convert the row letter to an integer (e.g A = 0), and the second char as an int of the column
         return position
