@@ -1,6 +1,5 @@
 import numpy as np  # for 2D array
 import copy  # see touch() function
-import random
 
 """ 
 Project 1.1: Indonesian Dot Puzzle Board Class
@@ -19,6 +18,7 @@ Object Variables:
 
 Object Variables used by:
     DFS: maxD (maximum depth)
+    BFS & A*: maxL (maximum search length)
 
 Constructor takes in parameters num, maxD, size and state creates objects of varying board sizes 3x3 to 10x10 grids
 
@@ -41,9 +41,6 @@ Free Method
 
 """ Free Methods """
 
-# def heuristicValue(board):
-#     # TODO: Replace this random number with the heurstic value determining of the board
-#     return random.randint(1, 40)        
 heuristicOption = 3
 
 def heuristicValue(board, type):
@@ -123,10 +120,10 @@ class Board:
     """Constructor"""
 
     def __init__(self, num, maxD, size, state, maxL):
-        self.num = int(num)   # index of puzzle
-        self.maxD = int(maxD)  # maximum depth (for Depth-First Search)
-        self.maxL = int(maxL)
-        self.size = int(size)  # Size of the puzzle (3-10)
+        self.num = int(num)     # index of puzzle
+        self.maxD = int(maxD)   # maximum search depth (for Depth-First Search)
+        self.maxL = int(maxL)   # maximum search length (for BFS and A* algorithms)
+        self.size = int(size)   # Size of the puzzle (range = 3-10)
         if (isinstance(state, str)):
             state_splitted = [int(digit) for digit in state]
             # Split the values (int) of the board into an array of 1s and 0s
