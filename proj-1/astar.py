@@ -56,6 +56,7 @@ class AStarSearch:
                             tree.openlist.append(child)
                 tree.openlist.sort(key=lambda x: (
                     x.f, x.board.printState()))
+                self.counter += 1
 
             self.finish(tree.head, False)
 
