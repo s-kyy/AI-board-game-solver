@@ -61,6 +61,7 @@ class AStarSearch:
             self.finish(tree.head, False)
 
     def finish(self, node, found=True):
+        self.counter = 0
         solutionFileName = os.getcwd()+'/output/' + \
             str(node.board.num)+'_astar_solution.txt'
         os.makedirs(os.path.dirname(solutionFileName), exist_ok=True)
